@@ -8,6 +8,14 @@ const classes = [
             'Path of the Storm Herald',
             'Path of the Zealot'
         ]
+    },
+    {
+        name: "Artificer",
+        subclass: [
+            "Alchemist",
+            "Artillerist",
+            "Battle Smith"
+        ]
     }
 ]
 
