@@ -7,6 +7,14 @@ var sentSubClass = ''
 var sentGender = ''
 var sentBackground =''
 var sentStatMods = ''
+var sentStats = {
+    Str: 0,
+    Dex: 0,
+    Con: 0,
+    Int: 0,
+    Wis: 0,
+    Cha: 0
+}
 
 function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
@@ -73,13 +81,58 @@ function getGender(gender){
     }
 }
 
+function getStatNumber(){
+    let arr = [
+        getRandomInt(6) + 1, 
+        getRandomInt(6) + 1, 
+        getRandomInt(6) + 1, 
+        getRandomInt(6) + 1
+    ]
+    let arr2 = arr.sort()
+    arr2.shift()
+    let stat = arr2.reduce((a, b) => a + b)
+    return stat
+}
+
+function getStats(statOption){
+    switch(statOption){
+        case "3d6":
+            {
+                sentStats = {
+                    Str: getRandomInt(6) + getRandomInt(6) + getRandomInt(6) + 3,
+                    Dex: getRandomInt(6) + getRandomInt(6) + getRandomInt(6) + 3,
+                    Con: getRandomInt(6) + getRandomInt(6) + getRandomInt(6) + 3,
+                    Int: getRandomInt(6) + getRandomInt(6) + getRandomInt(6) + 3,
+                    Wis: getRandomInt(6) + getRandomInt(6) + getRandomInt(6) + 3,
+                    Cha: getRandomInt(6) + getRandomInt(6) + getRandomInt(6) + 3
+                }
+            }
+            break;
+        case "4d6 drop lowest":
+            {
+                sentStats = {
+                    Str: getStatNumber(),
+                    Dex: getStatNumber(),
+                    Con: getStatNumber(),
+                    Int: getStatNumber(),
+                    Wis: getStatNumber(),
+                    Cha: getStatNumber()
+                }
+            }
+            break;
+        default:
+            sentStats = 'Something went wrong'
+    }
+}
+
 async function makeCharacter(req, res){
     
-    const {race, charClass, background, gender} = req.body
+    const {race, charClass, background, gender, statOption} = req.body
     
     getClass(charClass)
     getRace(race)
     getGender(gender)
+    getStats(statOption)
     
     res.status(200).json({
         sentClass,
@@ -87,7 +140,8 @@ async function makeCharacter(req, res){
         sentRace,
         sentSubRace,
         sentStatMods,
-        sentGender
+        sentGender,
+        sentStats
     })
 }
 
