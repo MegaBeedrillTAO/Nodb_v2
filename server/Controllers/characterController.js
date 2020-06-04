@@ -81,17 +81,33 @@ function getGender(gender){
     }
 }
 
-function getStatNumber(){
+function getStatNumber(statOption){
     let arr = [
         getRandomInt(6) + 1, 
         getRandomInt(6) + 1, 
         getRandomInt(6) + 1, 
         getRandomInt(6) + 1
     ]
-    let arr2 = arr.sort()
-    arr2.shift()
-    let stat = arr2.reduce((a, b) => a + b)
-    return stat
+    if (statOption == "4d6 drop lowest"){
+        let arr2 = arr.sort()
+        arr2.shift()
+        let stat = arr2.reduce((a, b) => a + b)
+        return stat 
+    }
+    else if (statOption == "4d6 drop lowest reroll 1s"){
+        while(arr.includes(1)){
+            for(let i = 0; i < arr.length; i++){
+                if (arr[i] == 1){
+                    arr[i] = getRandomInt(6) + 1
+                }
+            }
+        }
+        let arr2 = arr.sort()
+        arr2.shift()
+        let stat = arr2.reduce((a, b) => a + b)
+        return stat
+    }
+    
 }
 
 function getStats(statOption){
@@ -111,12 +127,36 @@ function getStats(statOption){
         case "4d6 drop lowest":
             {
                 sentStats = {
-                    Str: getStatNumber(),
-                    Dex: getStatNumber(),
-                    Con: getStatNumber(),
-                    Int: getStatNumber(),
-                    Wis: getStatNumber(),
-                    Cha: getStatNumber()
+                    Str: getStatNumber(statOption),
+                    Dex: getStatNumber(statOption),
+                    Con: getStatNumber(statOption),
+                    Int: getStatNumber(statOption),
+                    Wis: getStatNumber(statOption),
+                    Cha: getStatNumber(statOption)
+                }
+            }
+            break;
+        case "4d6 drop lowest reroll 1s":
+            {
+                sentStats = {
+                    Str: getStatNumber(statOption),
+                    Dex: getStatNumber(statOption),
+                    Con: getStatNumber(statOption),
+                    Int: getStatNumber(statOption),
+                    Wis: getStatNumber(statOption),
+                    Cha: getStatNumber(statOption)
+                }
+            }
+            break;
+        case "2d6 + 6":
+            {
+                sentStats = {
+                    Str: getRandomInt(6) + getRandomInt(6) + 8,
+                    Dex: getRandomInt(6) + getRandomInt(6) + 8,
+                    Con: getRandomInt(6) + getRandomInt(6) + 8,
+                    Int: getRandomInt(6) + getRandomInt(6) + 8,
+                    Wis: getRandomInt(6) + getRandomInt(6) + 8,
+                    Cha: getRandomInt(6) + getRandomInt(6) + 8
                 }
             }
             break;
