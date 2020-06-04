@@ -1,5 +1,6 @@
 const classes = require('../CharacterFiles/classes')
 const races = require('../CharacterFiles/races')
+const backgrounds = require('../CharacterFiles/backgrounds')
 var sentRace = ''
 var sentSubRace = ''
 var sentClass = ''
@@ -165,6 +166,15 @@ function getStats(statOption){
     }
 }
 
+function getBackground(background){
+    if (background == ''){
+        sentBackground = backgrounds.backgrounds[getRandomInt(backgrounds.backgrounds.length)]
+    }
+    else {
+        sentBackground = background
+    }
+}
+
 async function makeCharacter(req, res){
     
     const {race, charClass, background, gender, statOption} = req.body
@@ -172,6 +182,7 @@ async function makeCharacter(req, res){
     getClass(charClass)
     getRace(race)
     getGender(gender)
+    getBackground(background)
     getStats(statOption)
     
     res.status(200).json({
@@ -181,6 +192,7 @@ async function makeCharacter(req, res){
         sentSubRace,
         sentStatMods,
         sentGender,
+        sentBackground,
         sentStats
     })
 }
